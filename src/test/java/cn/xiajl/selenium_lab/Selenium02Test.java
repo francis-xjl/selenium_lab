@@ -3,12 +3,14 @@ package cn.xiajl.selenium_lab;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 /**
  * @author francis.xjl@qq.com
  * @date 2019-05-07 19:44
  **/
-public class Selenium01Test {
+public class Selenium02Test {
 
     // 下载chromedriver: https://npm.taobao.org/mirrors/chromedriver/
     public static final String CHROME_DRIVER_PATH = "/Users/xiajinlong/IdeaProjects/selenium_lab/install/74.0.3729.6/chromedriver";
@@ -18,6 +20,8 @@ public class Selenium01Test {
         // 设置chromedriver路径
         System.setProperty("webdriver.chrome.driver", CHROME_DRIVER_PATH);
         ChromeDriver driver = new ChromeDriver();
+
+        WebDriverWait wait = new WebDriverWait(driver, 5);
 
         driver.get("https://www.jia.com/shanghai/");
 
@@ -32,12 +36,13 @@ public class Selenium01Test {
         assert !driver.findElement(By.className("Jia_online_quote")).isDisplayed();
 
         // 点击“立即获取”
-        driver.findElement(By.className("Jia_obtain_btn")).click();
+//        driver.findElement(By.className("Jia_obtain_btn")).click();
+
 
         // 判断成功提示弹出
-        assert driver.findElement(By.className("Jia_online_quote")).isDisplayed();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("Jia_online_quote")));
+//        assert driver.findElement(By.className("Jia_online_quote")).isDisplayed();
 
         driver.close();
     }
-
 }
