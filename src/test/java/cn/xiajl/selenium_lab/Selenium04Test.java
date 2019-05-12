@@ -1,16 +1,13 @@
 package cn.xiajl.selenium_lab;
 
-import org.apache.commons.io.FileUtils;
 import org.junit.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.OutputType;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.File;
 
 /**
  * 页面源码demo
@@ -28,7 +25,7 @@ public class Selenium04Test {
     public void test() {
         // 设置chromedriver路径
         System.setProperty("webdriver.chrome.driver", CHROME_DRIVER_PATH);
-        ChromeDriver driver = new ChromeDriver();
+        WebDriver driver = new ChromeDriver();
 
         WebDriverWait wait = new WebDriverWait(driver, 5);
 

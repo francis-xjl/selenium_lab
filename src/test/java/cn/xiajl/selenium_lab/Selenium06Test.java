@@ -1,12 +1,16 @@
 package cn.xiajl.selenium_lab;
 
+import cn.xiajl.selenium_lab.utils.PerformanceLogs;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.logging.LogEntry;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.logging.LogEntries;
 import org.openqa.selenium.logging.LogType;
+import org.openqa.selenium.logging.LoggingPreferences;
 import org.openqa.selenium.logging.Logs;
+import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
@@ -18,24 +22,30 @@ import java.util.Set;
 import java.util.logging.Level;
 
 /**
- * 控制台输出 demo
+ * 网络请求 demo
  * @author francis.xjl@qq.com
  * @date 2019-05-12 19:44
  **/
-public class Selenium05Test {
+public class Selenium06Test {
 
-    private static Logger logger = LoggerFactory.getLogger(Selenium05Test.class);
+    private static Logger logger = LoggerFactory.getLogger(Selenium06Test.class);
 
     // 下载chromedriver: https://npm.taobao.org/mirrors/chromedriver/
     private static final String CHROME_DRIVER_PATH = "/Users/xiajinlong/IdeaProjects/selenium_lab/install/74.0.3729.6/chromedriver";
 
     @Test
     public void test() {
-
         // 设置chromedriver路径
         System.setProperty("webdriver.chrome.driver", CHROME_DRIVER_PATH);
-        ChromeDriver driver = new ChromeDriver();
-        driver.setLogLevel(Level.ALL);
+
+        LoggingPreferences preference = new LoggingPreferences();
+        preference.enable(LogType.BROWSER, Level.ALL);
+        preference.enable(LogType.PERFORMANCE, Level.ALL);
+
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.setCapability(CapabilityType.LOGGING_PREFS, preference);
+
+        WebDriver driver = new ChromeDriver(chromeOptions);
 
         WebDriverWait wait = new WebDriverWait(driver, 5);
 
@@ -56,30 +66,30 @@ public class Selenium05Test {
         // 判断成功提示弹出
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("Jia_online_quote")));
 
-        List<String> consoleLogs = getConsoleLogs(driver);
+        List<String> networkLogs = getNetworkLogs(driver);
 
-        for(String consoleLog : consoleLogs) {
-            System.out.println("consoleLog:" + consoleLog);
+        for(String networkLog : networkLogs) {
+            System.out.println("networkLog:" + networkLog);
         }
+
 
         driver.close();
     }
 
     /**
-     * 获取控制台输出
+     * 获取网络访问日志
      * @param driver
      * @return
      */
-    private static List<String> getConsoleLogs(WebDriver driver) {
+    private static List<String> getNetworkLogs(WebDriver driver) {
         Logs logs = driver.manage().logs();
-
         List<String> result = new ArrayList<String>();
 
         Set<String> availableLogTypes = logs.getAvailableLogTypes();
-        if(availableLogTypes.contains(LogType.BROWSER)) {
-            for(LogEntry entry : logs.get(LogType.BROWSER)) {
-                result.add(entry.toString());
-            }
+
+        if(availableLogTypes.contains(LogType.PERFORMANCE)) {
+            LogEntries logEntries = logs.get(LogType.PERFORMANCE);
+            result.addAll(PerformanceLogs.doBuildPerformanceLogsFriendly(logEntries));
         }
 
         return result;
