@@ -130,7 +130,7 @@ public class PerformanceLogs {
         return resultList;
     }
 
-    // 保存网络请求（包括页面源至文件)
+    // 获取网络响应数据
     private static List<String> getHttpTransferDataIfNecessary(ChromeDriverProxy driver, List<ResponseReceivedEvent> responses) {
         List<String> content = new ArrayList<>(1024);
 
