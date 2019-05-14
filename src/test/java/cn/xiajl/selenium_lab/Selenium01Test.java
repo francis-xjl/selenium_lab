@@ -20,7 +20,7 @@ public class Selenium01Test {
         System.setProperty("webdriver.chrome.driver", CHROME_DRIVER_PATH);
         ChromeDriver driver = new ChromeDriver();
 
-        driver.get("https://www.jia.com/shanghai/");
+        driver.get("https://www.xxx.com/shanghai/");
 
         // 录入建筑面积：80
         driver.findElement(By.cssSelector("[name=area]")).sendKeys("80");

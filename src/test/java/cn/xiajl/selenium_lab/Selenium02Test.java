@@ -24,7 +24,7 @@ public class Selenium02Test {
 
         WebDriverWait wait = new WebDriverWait(driver, 5);
 
-        driver.get("https://www.jia.com/shanghai/");
+        driver.get("https://www.xxx.com/shanghai/");
 
         // 录入建筑面积：80
         driver.findElement(By.cssSelector("[name=area]")).sendKeys("80");

@@ -35,7 +35,7 @@ public class Selenium03Test {
 
         WebDriverWait wait = new WebDriverWait(driver, 5);
 
-        driver.get("https://www.jia.com/shanghai/");
+        driver.get("https://www.xxx.com/shanghai/");
         saveSnapshot(driver, SNAPSHOT_DIR, SNAPSHOT_PREFIX);
 
         // 录入建筑面积：80
